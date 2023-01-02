@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkxianlin_vue2"]=self["webpackChunkxianlin_vue2"]||[]).push([[294],{6294:function(e,n,r){r.r(n),r.d(n,{default:function(){return c}});var t=function(){var e=this,n=e.$createElement;e._self._c;return e._m(0)},u=[function(){var e=this,n=e.$createElement,r=e._self._c||n;return r("div",{staticClass:"error"},[r("h1",[e._v("请求资源错误")])])}],a={name:"Error",props:{},data(){return{}},methods:{}},s=a,l=r(1001),i=(0,l.Z)(s,t,u,!1,null,"7a398524",null),c=i.exports}}]);
+//# sourceMappingURL=294.4b98d4bf.js.map

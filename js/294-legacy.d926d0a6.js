@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkxianlin_vue2"]=self["webpackChunkxianlin_vue2"]||[]).push([[294],{2238:function(e,n,r){r.r(n),r.d(n,{default:function(){return c}});var t=function(){var e=this,n=e.$createElement;e._self._c;return e._m(0)},u=[function(){var e=this,n=e.$createElement,r=e._self._c||n;return r("div",{staticClass:"error"},[r("h1",[e._v("请求资源错误")])])}],a={name:"Error",props:{},data:function(){return{}},methods:{}},s=a,i=r(1001),l=(0,i.Z)(s,t,u,!1,null,"7a398524",null),c=l.exports}}]);
+//# sourceMappingURL=294-legacy.d926d0a6.js.map
