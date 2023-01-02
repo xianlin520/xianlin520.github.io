@@ -4,6 +4,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import axios from 'axios'
+import '@/assets/font/font.css'
 // 注册全局组件
 Vue.use(ElementUI)
 // 将提醒关掉

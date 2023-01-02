@@ -4,16 +4,19 @@
       <div class="box">
         <p class="table">注册 千寻云</p>
         <br>
-        <input v-model="userData.name" type="text" class="input" placeholder="输入昵称(输入后可注册)"></input>
-        <input v-model="userData.account" @blur="judge" type="text" class="input" placeholder="输入邮箱账号"></input>
+        <input v-model="userData.name" class="input" placeholder="输入昵称(输入后可注册)" type="text"></input>
+        <input v-model="userData.account" :placeholder="inputAccount" class="input" type="text" @blur="judge"></input>
         <div class="smsCode">
           <input v-model="userData.check" class="smsCodeText" placeholder="输入验证码"></input>
-          <el-button class="smsCodeBtn">获取验证码</el-button>
+          <el-button :disabled="smsCodeBtnDisabled" class="smsCodeBtn" @click="getSmsCode">{{
+              smsCodeBtnText
+            }}
+          </el-button>
         </div>
-        <input v-model="userData.password" type="password" class="input" placeholder="输入密码"></input>
-        <input type="password" class="input" placeholder="再次输入密码"></input>
-        <el-button v-if='userData.name.length!==0' class="my-button">GO!</el-button>
-        <el-button v-else @click="toLogin" class="my-button">已有账号, 前去登录</el-button>
+        <input v-model="userData.password" class="input" placeholder="输入密码" type="password"></input>
+        <input class="input" placeholder="再次输入密码" type="password"></input>
+        <el-button v-if='userData.name.length!==0' class="my-button" @click="pushUserData">GO!</el-button>
+        <el-button v-else class="my-button" @click="toLogin">已有账号, 前去登录</el-button>
       </div>
     </div>
   </div>
@@ -24,16 +27,65 @@ export default {
   name: "MyRegister",
   data() {
     return {
-      userData:{
+      userData: {
         name: "",
         account: "",
         password: "",
         check: "",
         portrait: "",
-      }
+      },
+      inputAccount: "请输入邮箱账号",
+      smsCodeBtnText: '获取验证码',
+      smsCodeBtnDisabled: false,
     }
   },
   methods: {
+    pushUserData() {
+      if (this.userData.name !== "" && this.userData.account !== "" && this.userData.check !== "") {
+        this.$axios.put("/users", this.userData).then(value => {
+          if (value.data.code === 420) {
+            this.$message({
+              message: '验证码错误, 请重新获取',
+              type: 'warning'
+            });
+          } else if (value.data.code === 200) {
+            this.$message({
+              message: '登录成功',
+              type: 'success'
+            });
+          } else {
+            this.$message.error('登录失败');
+          }
+        });
+      }
+    },
+    getSmsCode() {
+      this.sendSmsCode();
+      let time = 30;
+      this.smsCodeBtnDisabled = true;
+      this.smsCodeBtnText = `${time}s`;
+      let timer = setInterval(() => {
+        if (time <= 0) {
+          clearInterval(timer);
+          this.smsCodeBtnDisabled = false;
+          this.smsCodeBtnText = '获取验证码';
+        } else {
+          time--;
+          this.smsCodeBtnText = `${time}s`;
+        }
+      }, 1000);
+    },
+    sendSmsCode() {
+      if (this.userData.account !== "") {
+        this.$axios.get("/email/" + this.userData.account).then(value => {
+          this.$message({
+            message: '验证码发送成功',
+            type: 'success'
+          });
+        });
+      }
+
+    },
     toLogin() {
       this.$router.push('/login')
     },
@@ -42,9 +94,11 @@ export default {
     },
     judge() {
       this.$axios.get("/users/" + this.userData.account).then(value => {
-        console.log(value.data.data);
-        return value.data.data;
-      })
+        if (value.data.data) {
+          this.userData.account = "";
+          this.inputAccount = "该账号已存在";
+        }
+      });
     },
   },
   mounted() {
@@ -84,7 +138,7 @@ export default {
     color: #fff;
     letter-spacing: 3px;
     background-image: linear-gradient(to left,
-    #7028e4,#e5b2ca);
+    #7028e4, #e5b2ca);
 
   }
 

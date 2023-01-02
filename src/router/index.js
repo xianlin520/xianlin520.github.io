@@ -8,6 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
+    component: () => import('@/components/my_article_web/MyArticleHome.vue')
   },
   // 只有用户访问到, 才会被加载渲染(惰性加载)
   {
